@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After the Call｜Kyra Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1EA;
+    --bg-soft: #EDE7DC;
+    --ink: #1F1B16;
+    --ink-soft: #4A4339;
+    --ink-light: #8B8275;
+    --accent: #8B7355;
+    --line: #D9D1C2;
+    --serif: 'Cormorant Garamond', 'Songti TC', serif;
+    --sans: 'Noto Sans TC', -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(31, 27, 22, 0.025) 1px, transparent 0);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 80px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .locale {
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--ink-light);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 56px;
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .step {
+    display: none;
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .step.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .intro-mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .intro-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(40px, 6vw, 56px);
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .intro-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .intro-body {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.9;
+    max-width: 520px;
+    margin-bottom: 56px;
+  }
+  .intro-body p + p { margin-top: 20px; }
+  .meta-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 56px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .meta-item { flex: 1; }
+  .meta-label {
+    font-family: var(--serif);
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .meta-value {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--ink);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<style>
+  .q-number {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+  .q-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 4vw, 32px);
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: -0.005em;
+  }
+  .q-hint {
+    font-size: 14px;
+    color: var(--ink-light);
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  textarea, input[type="text"], input[type="email"] {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.7;
+    resize: none;
+    transition: border-color 0.3s ease;
+  }
+  textarea { min-height: 120px; }
+  textarea:focus, input:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+  }
+  textarea::placeholder, input::placeholder {
+    color: var(--ink-light);
+    font-style: italic;
+    font-family: var(--serif);
+    font-size: 17px;
+  }
+  .scale {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 24px 0 16px;
+    gap: 8px;
+  }
+  .scale-option {
+    flex: 1;
+    aspect-ratio: 1;
+    max-width: 64px;
+    border: 1px solid var(--line);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--ink-soft);
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scale-option:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .scale-option.selected {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .radio-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 0;
+    cursor: pointer;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left 0.3s ease;
+  }
+  .radio-option:hover { padding-left: 8px; }
+  .radio-option input { display: none; }
+  .radio-mark {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--ink-soft);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+    position: relative;
+    transition: all 0.25s ease;
+  }
+  .radio-option input:checked + .radio-mark {
+    border-color: var(--accent);
+  }
+  .radio-option input:checked + .radio-mark::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .radio-label { flex: 1; }
+  .radio-label-main {
+    font-family: var(--serif);
+    font-size: 19px;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+  .radio-label-sub {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .btn {
+    background: transparent;
+    border: none;
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 12px 0;
+    letter-spacing: 0.05em;
+    transition: color 0.25s ease, transform 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn:hover { color: var(--accent); }
+  .btn-primary { font-style: italic; }
+  .btn-primary:hover { transform: translateX(4px); }
+  .btn-back:hover { transform: translateX(-4px); }
+  .btn-back { color: var(--ink-light); font-size: 14px; }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .btn:disabled:hover { color: var(--ink-light); transform: none; }
+  .thanks-mark {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .thanks-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 48px);
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+  .thanks-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .thanks-body {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.9;
+    margin-bottom: 48px;
+    max-width: 520px;
+  }
+  .thanks-body p + p { margin-top: 16px; }
+  .thanks-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .thanks-link {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.25s ease, transform 0.25s ease;
+    width: fit-content;
+  }
+  .thanks-link:hover {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+  .thanks-link::after {
+    content: '→';
+    font-style: normal;
+  }
+  /* Branched thank-you blocks */
+  .thanks-branch { display: none; }
+  .thanks-branch.active { display: block; }
+  .thanks-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 32px;
+    background: var(--ink);
+    color: var(--bg);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+  .thanks-cta:hover {
+    background: var(--accent);
+    transform: translateX(4px);
+  }
+  .thanks-cta::after {
+    content: '→';
+    font-style: normal;
+  }
+  .other-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    padding: 20px 24px;
+    border-left: 2px solid var(--accent);
+    margin: 24px 0 32px;
+    background: var(--bg-soft);
+  }
+  .footer {
+    margin-top: auto;
+    padding-top: 80px;
+    font-family: var(--serif);
+    font-size: 12px;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 48px 24px 80px; }
+    .header { margin-bottom: 56px; }
+    .meta-row { flex-direction: column; gap: 20px; }
+    .intro-body, .thanks-body { font-size: 15px; }
+  }
+</style>
+
+<div class="container">
+
+  <header class="header">
+    <div class="brand">Kyra Consulting</div>
+    <div class="locale">Taipei · Toronto</div>
+  </header>
+
+  <div class="progress" id="progress" style="display: none;">
+    <span id="progress-label">01 / 06</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <!-- 部署前請替換：
+       1. form action 的 REPLACE_FORM_ID
+       2. 每個 entry.REPLACE_XX 為實際的 Google Form entry ID -->
+  <form id="survey-form" action="https://docs.google.com/forms/d/e/REPLACE_FORM_ID/formResponse" method="POST" target="hidden-iframe">
+
+    <!-- Step 0: Intro -->
+    <div class="step active" data-step="0">
+      <div class="intro-mark">After the Call</div>
+      <h1 class="intro-title">謝謝你<br>來過<em>這 15 分鐘</em></h1>
+      <div class="intro-body">
+        <p>對話結束之後，常常會有一些東西在心裡慢慢沉下來。</p>
+        <p>這份回顧不是為了交作業，而是讓你有一段時間，把剛才的對話再整理一次。對你會是一次釐清，對我來說，也是一次更認識你的機會。</p>
+        <p>大約三分鐘。可以慢慢來。</p>
+      </div>
+
+      <div class="meta-row">
+        <div class="meta-item">
+          <div class="meta-label">Duration</div>
+          <div class="meta-value">約 3 分鐘</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Questions</div>
+          <div class="meta-value">六題</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Format</div>
+          <div class="meta-value">一題一頁</div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end;">
+        <button type="button" class="btn btn-primary" onclick="nextStep()">開始回顧 →</button>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" data-step="1">
+      <div class="q-number">Question 01 / 06</div>
+      <h2 class="q-title">剛才那 15 分鐘，最讓你印象深刻的是什麼？</h2>
+      <p class="q-hint">可以是一句話、一個畫面、一個我說過的詞，或者一個你自己意外說出口的東西。</p>
+      <textarea name="entry.REPLACE_Q1" placeholder="慢慢寫，沒有標準答案。" rows="4"></textarea>
+      <div class="nav">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 回上一頁</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">繼續 →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" data-step="2">
+      <div class="q-number">Question 02 / 06</div>
+      <h2 class="q-title">這次對話之後，你對自己的狀況，更清楚了一些嗎？</h2>
+      <p class="q-hint">不需要假裝。即使更模糊也沒關係——有時候，看見自己的模糊，本身就是一種進展。</p>
+      <div class="scale" id="scale-group">
+        <button type="button" class="scale-option" data-value="1">1</button>
+        <button type="button" class="scale-option" data-value="2">2</button>
+        <button type="button" class="scale-option" data-value="3">3</button>
+        <button type="button" class="scale-option" data-value="4">4</button>
+        <button type="button" class="scale-option" data-value="5">5</button>
+      </div>
+      <div class="scale-labels">
+        <span>更模糊了</span>
+        <span>更清楚了</span>
+      </div>
+      <input type="hidden" name="entry.REPLACE_Q2" id="scale-input">
+      <div class="nav">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 回上一頁</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">繼續 →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step" data-step="3">
+      <div class="q-number">Question 03 / 06</div>
+      <h2 class="q-title">如果用一句話描述你現在的方向，會怎麼說？</h2>
+      <p class="q-hint">不一定要是完整的答案。就算是「我還不知道，但我想先從 ___ 開始」也可以。</p>
+      <textarea name="entry.REPLACE_Q3" placeholder="一句話，或一個開頭。" rows="3"></textarea>
+      <div class="nav">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 回上一頁</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">繼續 →</button>
+      </div>
+    </div>
+
+
+    <!-- Step 4 -->
+    <div class="step" data-step="4">
+      <div class="q-number">Question 04 / 06</div>
+      <h2 class="q-title">接下來，你想怎麼進行？</h2>
+      <p class="q-hint">沒有正確答案。也不會因為你選了什麼，就被推銷。</p>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="entry.REPLACE_Q4" value="想預約 Pathways 90 分鐘" data-choice="pathways">
+          <span class="radio-mark"></span>
+          <span class="radio-label">
+            <span class="radio-label-main">我想預約 Pathways 90 分鐘</span>
+            <span class="radio-label-sub">進入一段完整的對話。</span>
+          </span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="entry.REPLACE_Q4" value="想再想想，先保持聯繫" data-choice="wait">
+          <span class="radio-mark"></span>
+          <span class="radio-label">
+            <span class="radio-label-main">想再想想，先保持聯繫就好</span>
+            <span class="radio-label-sub">不急，未來有需要再說。</span>
+          </span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="entry.REPLACE_Q4" value="訂閱 Substack 持續閱讀" data-choice="substack">
+          <span class="radio-mark"></span>
+          <span class="radio-label">
+            <span class="radio-label-main">先訂閱 Substack，持續閱讀</span>
+            <span class="radio-label-sub">用文字慢慢消化也很好。</span>
+          </span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="entry.REPLACE_Q4" value="其他" data-choice="other">
+          <span class="radio-mark"></span>
+          <span class="radio-label">
+            <span class="radio-label-main">其他</span>
+            <span class="radio-label-sub">你可以在下一題告訴我。</span>
+          </span>
+        </label>
+      </div>
+      <div class="nav">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 回上一頁</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">繼續 →</button>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step" data-step="5">
+      <div class="q-number">Question 05 / 06</div>
+      <h2 class="q-title">有什麼話想對我說嗎？</h2>
+      <p class="q-hint">回饋、疑問、希望我下次怎麼進行——什麼都可以，也可以留白。</p>
+      <textarea name="entry.REPLACE_Q5" placeholder="（選填）" rows="4"></textarea>
+      <div class="nav">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 回上一頁</button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">繼續 →</button>
+      </div>
+    </div>
+
+    <!-- Step 6: Contact -->
+    <div class="step" data-step="6">
+      <div class="q-number">Question 06 / 06</div>
+      <h2 class="q-title">最後，留下你的聯繫方式</h2>
+      <p class="q-hint">這樣我能在你需要的時候，找到你。</p>
+      <div style="margin-bottom: 32px;">
+        <input type="text" name="entry.REPLACE_NAME" placeholder="你的稱呼" required>
+      </div>
+      <div>
+        <input type="email" name="entry.REPLACE_EMAIL" placeholder="Email" required>
+      </div>
+      <div class="nav">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 回上一頁</button>
+        <button type="submit" class="btn btn-primary" id="submit-btn">送出回顧 →</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Step 7: Thank you -->
+  <div class="step" data-step="7">
+    <div class="thanks-mark">Thank you</div>
+
+    <!-- 分流 A：選了 Pathways -->
+    <div class="thanks-branch" data-branch="pathways">
+      <h1 class="thanks-title">收到了。<br><em>我們很快會再見。</em></h1>
+      <div class="thanks-body">
+        <p>謝謝你願意把這 15 分鐘的對話再整理一次，也謝謝你選擇繼續走下去。</p>
+        <p>你可以直接前往下方預約 Pathways 90 分鐘。如果時段需要協調，我會在收到預約後與你聯繫。</p>
+      </div>
+      <a href="https://calendly.com/kyrah0131/consulting" class="thanks-cta">前往預約 Pathways</a>
+      <div class="thanks-links" style="margin-top: 48px;">
+        <a href="https://www.kyra.consulting" class="thanks-link">回到首頁</a>
+      </div>
+    </div>
+
+    <!-- 分流 B：選了想再想想 -->
+    <div class="thanks-branch" data-branch="wait">
+      <h1 class="thanks-title">收到了。<br><em>不用急。</em></h1>
+      <div class="thanks-body">
+        <p>有時候，問題會在你不再追問它的時候，自己浮現答案。</p>
+        <p>我會把你的回顧留著。未來如果你想再走一段，隨時可以回來。</p>
+        <p>如果想在這段時間繼續閱讀一些關於轉折與選擇的筆記，Substack 是一個比較慢、但很適合此刻的地方。</p>
+      </div>
+      <div class="thanks-links">
+        <a href="https://kyradandan.substack.com" class="thanks-link">訂閱 Substack</a>
+        <a href="https://www.kyra.consulting" class="thanks-link">回到首頁</a>
+      </div>
+    </div>
+
+    <!-- 分流 C：選了 Substack -->
+    <div class="thanks-branch" data-branch="substack">
+      <h1 class="thanks-title">收到了。<br><em>那我們文字裡見。</em></h1>
+      <div class="thanks-body">
+        <p>用文字慢慢消化，是很好的選擇。有些東西，要在閱讀的安靜裡才會看清楚。</p>
+        <p>下方是訂閱連結。新文章會直接寄到你的信箱，不會太多，不會太吵。</p>
+      </div>
+      <a href="https://kyradandan.substack.com" class="thanks-cta">前往訂閱 Substack</a>
+      <div class="thanks-links" style="margin-top: 48px;">
+        <a href="https://www.kyra.consulting/pathways" class="thanks-link">了解 Pathways</a>
+        <a href="https://www.kyra.consulting" class="thanks-link">回到首頁</a>
+      </div>
+    </div>
+
+    <!-- 分流 D：選了其他 -->
+    <div class="thanks-branch" data-branch="other">
+      <h1 class="thanks-title">收到了。<br><em>謝謝你告訴我。</em></h1>
+      <div class="thanks-body">
+        <p>你寫下的內容我都看見了：</p>
+      </div>
+      <div class="other-quote" id="other-quote-text">—</div>
+      <div class="thanks-body">
+        <p>我會花一點時間讀完、再思考最適合的回應方式。如果有具體的建議或可以一起做的事，我會在 48 小時內與你聯繫。</p>
+      </div>
+      <div class="thanks-links">
+        <a href="https://www.kyra.consulting/pathways" class="thanks-link">回到 Pathways</a>
+        <a href="https://kyradandan.substack.com" class="thanks-link">訂閱 Substack</a>
+        <a href="https://www.kyra.consulting" class="thanks-link">回到首頁</a>
+      </div>
+    </div>
+
+    <!-- 分流 E：沒選或預設 -->
+    <div class="thanks-branch active" data-branch="default">
+      <h1 class="thanks-title">收到了。<br><em>謝謝你願意整理。</em></h1>
+      <div class="thanks-body">
+        <p>你的回顧已經傳到我這裡。</p>
+        <p>不論你接下來決定怎麼走，都不用急。有時候，問題會在你不再追問它的時候，自己浮現答案。</p>
+      </div>
+      <div class="thanks-links">
+        <a href="https://www.kyra.consulting/pathways" class="thanks-link">回到 Pathways</a>
+        <a href="https://kyradandan.substack.com" class="thanks-link">訂閱 Substack</a>
+        <a href="https://www.kyra.consulting" class="thanks-link">回到首頁</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    © 2026 Kyra Huang. All rights reserved.
+  </footer>
+
+</div>
+
+<iframe name="hidden-iframe" style="display:none;" onload="handleSubmit()"></iframe>
+
+<script>
+  let currentStep = 0;
+  const totalSteps = 7;
+  let submitted = false;
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector('[data-step="' + n + '"]').classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    const progressEl = document.getElementById('progress');
+    if (n === 0 || n === 7) {
+      progressEl.style.display = 'none';
+      return;
+    }
+    progressEl.style.display = 'flex';
+    document.getElementById('progress-label').textContent = '0' + n + ' / 06';
+    const pct = n / 6;
+    document.getElementById('progress-fill').style.transform = 'scaleX(' + pct + ')';
+  }
+
+  function nextStep() {
+    if (currentStep < totalSteps - 1) {
+      currentStep++;
+      showStep(currentStep);
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 0) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  }
+
+  document.querySelectorAll('.scale-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      document.querySelectorAll('.scale-option').forEach(function(o) {
+        o.classList.remove('selected');
+      });
+      this.classList.add('selected');
+      document.getElementById('scale-input').value = this.dataset.value;
+    });
+  });
+
+  // 在送出前，記住 Q4 選的是什麼、Q5 寫了什麼
+  var q4Choice = 'default';
+  var q5Text = '';
+
+  document.getElementById('survey-form').addEventListener('submit', function(e) {
+    submitted = true;
+    var btn = document.getElementById('submit-btn');
+    btn.textContent = '送出中…';
+    btn.disabled = true;
+
+    // 讀取 Q4 選擇
+    var checked = document.querySelector('input[name="entry.REPLACE_Q4"]:checked');
+    if (checked && checked.dataset.choice) {
+      q4Choice = checked.dataset.choice;
+    }
+
+    // 讀取 Q5 內容（給「其他」分流引用）
+    var q5Input = document.querySelector('textarea[name="entry.REPLACE_Q5"]');
+    if (q5Input) {
+      q5Text = q5Input.value.trim();
+    }
+  });
+
+  function handleSubmit() {
+    if (submitted) {
+      document.querySelectorAll('.step').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      document.querySelector('[data-step="7"]').classList.add('active');
+      document.getElementById('progress').style.display = 'none';
+
+      // 切換到對應的致謝分流
+      document.querySelectorAll('.thanks-branch').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      var targetBranch = document.querySelector('.thanks-branch[data-branch="' + q4Choice + '"]');
+      if (!targetBranch) {
+        targetBranch = document.querySelector('.thanks-branch[data-branch="default"]');
+      }
+      targetBranch.classList.add('active');
+
+      // 如果選了「其他」並有寫 Q5，把 Q5 內容引用到分流 D
+      if (q4Choice === 'other' && q5Text) {
+        var quoteEl = document.getElementById('other-quote-text');
+        if (quoteEl) {
+          quoteEl.textContent = q5Text;
+        }
+      } else if (q4Choice === 'other' && !q5Text) {
+        // 選了其他但沒寫 Q5——隱藏引用區塊
+        var quoteEl = document.getElementById('other-quote-text');
+        if (quoteEl) {
+          quoteEl.style.display = 'none';
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  showStep(0);
+</script>
+
+</body>
+</html>
